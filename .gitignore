@@ -3,3 +3,4 @@ todosapp.db
 .idea
 /.idea
 *.idea
+alembic.ini
