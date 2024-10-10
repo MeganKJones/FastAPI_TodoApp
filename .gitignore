@@ -1,0 +1,5 @@
+.env
+todosapp.db
+.idea
+/.idea
+*.idea
