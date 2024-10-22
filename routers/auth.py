@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import HTTPException
+from fastapi import Request
 from datetime import timedelta
 from datetime import datetime
 from datetime import timezone
@@ -17,6 +18,9 @@ from sqlalchemy.orm import Session
 from starlette import status
 from dotenv import load_dotenv
 import os
+from fastapi.templating import Jinja2Templates
+
+
 
 load_dotenv()
 
@@ -50,6 +54,20 @@ def get_db():
         db.close()
 
 db_dependency = Annotated[Session, Depends(get_db)]
+
+templates = Jinja2Templates(directory="templates")
+
+## Pages ##
+@router.get("/login-page")
+def render_login_page(request: Request):
+    return templates.TemplateResponse("login.html", {"request": request})
+
+@router.get("/register-page")
+def render_register_page(request: Request):
+    return templates.TemplateResponse("register.html", {"request": request})
+
+
+## Endpoints ##
 
 def authenticate_user(username: str, password: str, db):
     user = db.query(Users).filter(Users.username == username).first()
